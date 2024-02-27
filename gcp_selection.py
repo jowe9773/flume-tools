@@ -12,7 +12,7 @@ image_fn = Managers.loadFn("Select image to identify GCPs on")
 image = cv2.imread(image_fn)
 
 # 2- set a number of GCPs you want to analyze (can always exit out early by clicking "x", so I will plan to iterate like 100 times)
-iterations = 4
+iterations = 9
 done = 0
 
 # 3- for each iteration open the GUI and save the GCP info to a list of GCPs
