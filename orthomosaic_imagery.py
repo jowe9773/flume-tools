@@ -21,10 +21,9 @@ after every run.
 #choose a directory containing images, one containing GCPS for each image and one containing the cutlines for each image
 image_dir = fm.loadDn("Choose the directory containing images")
 
-gcps_dir = "C:/Users/josie/OneDrive - UCB-O365/Research/LW Flume Experiments/Winter 2024/2024 Analysis/Orthomosaic/allgcps_by_camera" # I am not planning on moving them for a while, so this should be used
-    #gcps_dir = fm.loadDn("Choose the directory containing images")
+gcps_dir = fm.loadDn("Choose the directory containing gcps")
 
-cutlines_dir = fm.loadDn("Choose the directory containing images")
+cutlines_dir = fm.loadDn("Choose the directory containing cutlines")
 
 #choose an output directory
 out_dir = fm.loadDn("Choose an output directory for the georeferenced images")
@@ -50,7 +49,9 @@ for i in range(len(image_files)): #for each image
 
     ip.georeferenceImage(source_image, georeferenced_image, gcps_file) #georeference the image
 
-    ip.trim(georeferenced_image, cutlines_file)
+    trimmed_fn = out_dir + "\\trimmed_" + "cam_" + str(i+1) + ".tif" #create the output filepath for this image
+
+    ip.trim(georeferenced_image, trimmed_fn, cutlines_file)
 
 ip.mosaic(out_dir) #mosaic the georeferenced images
 

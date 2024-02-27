@@ -124,7 +124,7 @@ class Image_Processing:
 
         directory = in_dir
 
-        image_list = glob.glob(directory + "\\cam_[1-4].tif")
+        image_list = glob.glob(directory + "\\trimmed_cam_[1-4].tif")
 
         image_1 = image_list[0]
 
@@ -139,11 +139,11 @@ class Image_Processing:
 
         subprocess.call(['python.exe', 'gdal_merge.py', '-o', output_dn + '\\merged.tif', '-of', 'GTiff' , image_1, image_2, image_3, image_4])
 
-    def trim(output_fn, cutline):
+    def trim(input_fn, output_fn, cutline):
         from osgeo import gdal
         import numpy as np 
 
-        rectified = gdal.Open(output_fn)
+        rectified = gdal.Open(input_fn)
 
         gdal.Warp(output_fn, rectified, cutlineDSName = cutline, cropToCutline = True, dstNodata = np.nan)
 
