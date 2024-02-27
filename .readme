@@ -7,5 +7,5 @@ Modules of interest include:
 - general video editing functionalities (extract image sequences, extract portions of video, image brightening, transfering GoPro data from etc)
 - PIV?
 - processing SICK data
-- DEM of Differencing
-- processing 
+- DEM of differencing
+- processing of Massa data
