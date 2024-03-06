@@ -147,4 +147,57 @@ class Image_Processing:
 
         gdal.Warp(output_fn, rectified, cutlineDSName = cutline, cropToCutline = True, dstNodata = np.nan)
 
+    def orthorectifyVideo(self, start_time=0, clip_duration=30, step = 1/24):
+        import cv2
+        import os
+
+        in_vid_fn = File_Managers.loadFn("Choose a video file to orthorectify")                 #select video file
+        out_dn = File_Managers.loadDn("Choose a directory to store orthorectified video in")    #select final directory
+
+        fn = os.path.basename(in_vid_fn).split('.')[0]                                          #get the base filename (no file extension)
+        orthorectified_vid_fn = out_dn + '\\' + fn + "_orthorectified.mp4"                      #build the output file name based on the base filename
+
+        start_time = start_time
+        clip_duration = clip_duration
+        step = step
+        count = start_time 
+        success = True
+
+        cap = cv2.VideoCapture(in_vid_fn)
+
+        # Get the video's frames per second and frame size
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+        # Create VideoWriter object to save the output video
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter(orthorectified_vid_fn, fourcc, fps, (width, height))
+
+        while success and count <= start_time + clip_duration:
+            cap.set(cv2.CAP_PROP_POS_MSEC,(count*1000))    # added this line 
+
+            if success == True:
+                ret, frame = cap.read()
+
+                # Orthorectify the frame
+                orthorectified_frame = "Do something here"
+
+                # Write the orthorectified frame to the output video
+                out.write(orthorectified_frame)
+
+                count = count + step*24
+                print(count)
+
+            # Break the loop if no more frames are available
+            else:
+                break
+
+        # Release video capture and writer objects
+        cap.release()
+        out.release()
+
+        # Close all OpenCV windows
+        cv2.destroyAllWindows()
+
 
